@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>market_status</title>
+  </head>
+  <body>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <div class="container">
+      <h2><a href="/">List of Selling</a> | <a href="/market_new_seller">New_Sale</a> | <a href="/balance">Balance</a></h2>
+      {% for trade in trades %}
+        <table  class="pure-table pure-table-horizontal">
+          <tr>
+            <td>Index</td>
+            <td>{{ trade.index }} > <a href="/market_view_my_sell?index={{trade.index}}">view_sell_status</a></td>
+          </tr>
+          <tr>
+            <td>Account Address</td>
+            <td>{{ trade.terms.seller_address }}</td>
+          </tr>
+          <tr>
+            <td>Valoper</td>
+            <td>{{ trade.terms.valoper }}</td>
+          </tr>
+          <tr>
+            <td>Trade Amount</td>
+            <td>{{ trade.terms.trade_amount }}</td>
+          </tr>
+          <tr>
+            <td>Price(Discount Rate)</td>
+            <td>{{ trade.terms.price }} ({{ "%0.2f" % ((1-trade.terms.price/(trade.terms.trade_amount))*100.0)|float }}%)</td>
+          </tr>
+          <tr>
+            <td>Status</td>
+            <td>
+              {{ trade.status }}
+              {% if trade.status == "live" %}
+              <a href="/market_buy_bid?index={{trade.index}}">buy this delegation!</a>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td>Upload_Time(Passed Minutes)</td>
+            <td>{{ trade.upload_time }} ({{ "%0.2f" % ((current_time-trade.upload_timestamp)/60.0)|float }} minutes)</td>
+          </tr>
+          <tr>
+            <td>TX HASH</td>
+            <td><a href="/tx?tx_hash={{trade.trade_result.tx_hash}}">{{ trade.trade_result.tx_hash }}</a></td>
+          </tr>
+          <tr>
+            <td>Commit Block</td>
+            <td>{{ trade.trade_result.commit_block }}</td>
+          </tr>
+          <tr>
+            <td>Success Flag</td>
+            <td>{{ trade.trade_result.success_flag }}</td>
+          </tr>
+        </table>
+        <br><br>
+      {% endfor %}
+    </div>
+  </body>
+</html>

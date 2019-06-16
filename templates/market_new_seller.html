@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>market_new_seller</title>
+  </head>
+  <body>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <div class="container">
+      <h2><a href="/">List of Selling</a> | <a href="/market_new_seller">New_Sale</a> | <a href="/balance">Balance</a></h2>
+      <form action="/market_new_seller_submit">
+      <table border=1>
+        <tr>
+          <td>Account Address</td>
+          <td><input type="text" name="seller_address" size=50></td>
+        </tr>
+        <tr>
+          <td>Valoper</td>
+          <td><input type="text" name="valoper" size=50></td>
+        </tr>
+        <tr>
+          <td>Trade Amount</td>
+          <td><input type="text" name="trade_amount"></td>
+        </tr>
+        <tr>
+          <td>Price of Account</td>
+          <td><input type="text" name="price"></td>
+        </tr>
+      </table>
+      <input type="submit" value="Submit">
+      </form>
+    </div>
+  </body>
+</html>

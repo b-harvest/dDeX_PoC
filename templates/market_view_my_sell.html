@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>market_view_my_sell</title>
+  </head>
+  <body>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <div class="container">
+      <h2><a href="/">List of Selling</a> | <a href="/market_new_seller">New_Sale</a>  | <a href="/balance">Balance</a></h2>
+      <br>Trade Information<br>
+      <table border=1>
+        <tr>
+          <td>Index</td>
+          <td>{{ trade.index }}</td>
+        </tr>
+        <tr>
+          <td>Account Address</td>
+          <td>{{ trade.terms.seller_address }}</td>
+        </tr>
+        <tr>
+          <td>Valoper</td>
+          <td>{{ trade.terms.valoper }}</td>
+        </tr>
+        <tr>
+          <td>Trade Amount</td>
+          <td>{{ trade.terms.trade_amount }}</td>
+        </tr>
+        <tr>
+          <td>Price(Discount Rate)</td>
+          <td>{{ trade.terms.price }} ({{ "%0.2f" % ((1-trade.terms.price/(trade.terms.trade_amount))*100.0)|float }}%)</td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td>
+            {{ trade.status }}
+            {% if trade.status == "live" %}
+            <a href="/market_buy_bid?index={{trade.index}}">buy this delegation!</a>
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <td>Upload_Time</td>
+          <td>{{ trade.upload_time }}</td>
+        </tr>
+        <tr>
+          <td>TX HASH</td>
+          <td><a href="/tx?tx_hash={{trade.trade_result.tx_hash}}">{{ trade.trade_result.tx_hash }}</a></td>
+        </tr>
+        <tr>
+          <td>Commit Block</td>
+          <td>{{ trade.trade_result.commit_block }}</td>
+        </tr>
+        <tr>
+          <td>Success Flag</td>
+          <td>{{ trade.trade_result.success_flag }}</td>
+        </tr>
+      </table>
+      {% if trade.status == "trading" %}
+      <br><br><br>
+      Buyer Information Received
+      <table border=1>
+        <tr>
+          <td>Buyer Address</td>
+          <td>{{ trade.terms.buyer_address }}</td>
+        </tr>
+        <tr>
+          <td>TX JSON</td>
+          <td>{{ trade.tx_sig.tx_json_string }}</td>
+        </tr>
+        <tr>
+          <td>Buyer Signature</td>
+          <td>{{ trade.tx_sig.buyer_sig }}</td>
+        </tr>
+      </table>
+      <br><br><br>
+      <form action="/market_trade_confirm" id="market_trade_confirm">
+      <input type="hidden" name="index" value="{{ trade.index }}">
+      Enter Seller's Signature Using Above TX JSON<br>
+      How To Sign : <font color=red>sudo gaiacli tx sign tx.json --from seller --chain-id chain-hackatom-b-harvest --signature-only</font><br>
+      <table border=1>
+        <tr>
+          <td>
+            Signature<br>
+            example : <font color=red>{"pub_key":{"type":"tendermint/PubKeySecp256k1","value":"~~~"},"signature":"~~~"}</font>
+          </td>
+        </tr>
+        <tr>
+          <td><textarea name="seller_sig" form="market_trade_confirm" rows="10" cols="100"></textarea></td>
+        </tr>
+      </table>
+      <input type="submit" value="Confirm_Trade">
+      </form>
+      {% endif %}
+    </div>
+  </body>
+</html>

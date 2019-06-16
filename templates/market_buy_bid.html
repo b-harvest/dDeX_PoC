@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>market_buy_bid</title>
+  </head>
+  <body>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <div class="container">
+      <h2><a href="/">List of Selling</a> | <a href="/market_new_seller">New_Sale</a> | <a href="/balance">Balance</a> </h2>
+      <form action="/market_buy_bid" id="market_buy_bid">
+      <input type="hidden" name="index" value="{{trade.index}}">
+      Selling Information
+      <table border=1>
+        <tr>
+          <td>Index</td>
+          <td>{{ trade.index }}</td>
+        </tr>
+        <tr>
+          <td>Seller Address</td>
+          <td>{{trade.terms.seller_address}}</td>
+        </tr>
+        <tr>
+          <td>Valoper</td>
+          <td>{{ trade.terms.valoper }}</td>
+        </tr>
+        <tr>
+          <td>Trade Amount</td>
+          <td>{{ trade.terms.trade_amount }}</td>
+        </tr>
+        <tr>
+          <td>Price</td>
+          <td>{{ trade.terms.price }}</td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td>
+            {{ trade.status }}
+          </td>
+        </tr>
+        <tr>
+          <td>Upload_Time</td>
+          <td>{{ trade.upload_time }}</td>
+        </tr>
+      </table>
+      {% if trade.status == "live" %}
+      <br><br>
+      Enter Buyer's Information...<br>
+      <table border=1>
+        <tr>
+          <td>Buyer's Account Address</td>
+          <td><input type="text" name="buyer_address" value="{{ trade.terms.buyer_address }}" size=50></td>
+        </tr>
+      </table>
+      <input type="submit" value="Get_TX_JSON">
+      {% endif %}
+      {% if trade.tx_sig.tx_json_string != "" %}
+      <br><br><br>
+      <table border=1>
+        <tr>
+          <td>tx_json</td>
+        </tr>
+        <tr>
+          <td><textarea rows="10" cols="100" readonly>{{trade.tx_sig.tx_json_string}}</textarea></td>
+        </tr>
+      </table>
+      <br><br>
+      Enter Buyer's Signature Using Above TX_JSON<br>
+      How To Sign : <font color=red>sudo gaiacli tx sign tx.json --from buyer --chain-id chain-hackatom-b-harvest --signature-only</font><br>
+      <table border=1>
+        <tr>
+          <td>
+            Signature<br>
+            example : <font color=red>{"pub_key":{"type":"tendermint/PubKeySecp256k1","value":"~~~"},"signature":"~~~"}</font>
+          </td>
+        </tr>
+        <tr>
+          <td><textarea name="buyer_sig" form="market_buy_bid" rows="10" cols="100"></textarea></td>
+        </tr>
+      </table>
+      <input type="submit" value="Submit_Bid">
+      {% endif %}
+      </form>
+    </div>
+  </body>
+</html>
